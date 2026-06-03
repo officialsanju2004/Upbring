@@ -8,7 +8,7 @@ import ModernLuxuryRealEstate from "./ModernLuxuryRealEstate";
 import PremiumCleaningWebsite from "./PremiumCleaningWebsite";
 import ProfessionalCleaningWebsite from "./ProfessionalCleaningWebsite";
 
-import UpBringing from "./upBringing";
+import UpBringing from "./UpBringing";
 
 
 
