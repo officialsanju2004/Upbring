@@ -1,6 +1,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import image10 from "../images/logo.jpg";
+import { FaChevronDown } from 'react-icons/fa';
 import image6 from '../images/logo.jpg'
 import {Menu,ChevronDown,ChevronRight,ArrowRightCircle,Phone,Mail, MapPin, Clock }from 'lucide-react';
 import AOS from "aos";
@@ -8,7 +9,16 @@ import "aos/dist/aos.css";
 import {  Facebook, Linkedin, Instagram, Youtube, Twitter } from 'lucide-react';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 export default function Contact() {
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+      // Handle service selection
+    const handleServiceSelect = (path) => {
+      navigate(path);
+      setIsServicesOpen(false);
+      setIsMenuOpen(false);
+    };
     const menuItems = [
             "Our Services",
             "Our Products",
@@ -26,122 +36,183 @@ if(selectedValue){
   navigate(selectedValue);
 }
 };
+const serviceItems = [
+    { name: 'Website Design', path: '/webdesign' },
+    {name:'Lead Generation',path:'/lead'},
+    {name:'Go High Level CRM',path:'/gohigh'},
+    {name:'Ai Agents/Automation Development',path:'/ai'},
+
+    {name:'White Label Marketing',path:'/whitelabel'},
+
+   
+    {name:'Digital Marketing',path:'/digitalmarketing'},
+    {name:'Managed Hosting',path:'/hosting'},
+
+
+
+    {name:'Conversion Rate Optimization',path:'/conversionrate'},
+
+    {name:'Service Website',path:'/service-site'},
+    {name:'Meta Ads Management',path:'/metaads'},
+
+    {name:'Search Engine Optimisation',path:'/seo'},
+
+    {name:'Branding & Logo Design',path:'/branding&logodesign'},
+
+    {name:'ECommerce Websites',path:'/ecommerce'},
+
+    {name:'Google Ads Management',path:'/googleads'},
+
+
+
+
+    
+  ];
            const [menuOpen, setMenuOpen] = useState(false); 
   return (
     <div>
            {/* Header */}
-            <header className="w-full bg-[#f7f7f7] py-4" data-aos="slide-down">
-              <div className="mx-auto max-w-7xl px-4">
-                <nav className="flex items-center justify-between rounded-2xl bg-white px-4 sm:px-6 py-3 sm:py-4 shadow-md">
-                  {/* Logo */}
-                  <div onClick ={()=>{navigate('/')}}className="flex items-center gap-2">
-                    <img
-                      src={image6}
-                      alt="Growth Flow Media"
-                      className="h-12 sm:h-16 md:h-20 w-auto "
-                    />
-                  </div>
-      
-                  {/* Mobile Menu Button */}
-                  <button 
-                    className="lg:hidden p-2"
-                    onClick={() => setMenuOpen(!menuOpen)}
-                  >
-                    <Menu size={24} />
-                  </button>
-      
-                  {/* Menu - Desktop */}
-                  <ul className="hidden lg:flex items-center gap-4 xl:gap-8 text-sm xl:text-[15px] font-medium text-gray-700">
-                    <li className="group relative cursor-pointer">
-                        <div onClick={()=>{navigate('/')}}className="flex items-center gap-1 hover:text-black whitespace-nowrap">
-                          Home
-                          
-                        </div>
-      
-                      </li>
-                      <li>
-                        <select onChange={handleChangeSelection}className='w-30'>
-                           <option value="">Our Services</option>
-                  <option value="/webdesign">Website Design</option>
-                  <option value="/ecommerce">ECommerce Websites</option>
-                  <option value="/service-site">Service Website</option>
-                  <option value="/branding&logodesign">Branding & Logo Design</option>
-                  <option value="/digitalmarketing">Digital Marketing</option>
-                  <option value="/seo">Search Engine Optimisation</option>
-                  <option value="/googleads">Google Ads Management</option>
-                  <option value="/metaads">Meta Ads Management</option>
-             
-                  <option value="/conversionrate">Conversion Rate Optimization</option>
-                  <option value="/hosting">Managed Hosting</option>
-                  <option value="/gohigh">Go High Level CRM</option>
-                  <option value="/ai">AI Agents / Automation Development</option>
-                  <option value="/whitelabel">White Label Marketing</option>
-                  <option value="/lead">Lead Generation</option>
-      
-                        </select>
-                      </li>
-                      
-                      
-                       <li onClick={()=>{navigate('/contact')}}className="group relative cursor-pointer">
-                        <div className="flex items-center gap-1 hover:text-black whitespace-nowrap">
-                         Contact us 
-                          
-                        </div>
-      
-              
-                      </li>
-            
-                  </ul>
-      
-                  {/* CTA Button */}
-                  <button className="hidden lg:flex gap-2 rounded-xl bg-[#e36a2e] px-4 sm:px-6 py-2 sm:py-3 text-sm font-semibold text-black transition hover:bg-[#cf5f28] whitespace-nowrap" onClick={()=>{navigate('/contact')}}>
-                    Get Started Now <span><ArrowRightCircle size={18} className='text-black'/></span>
-                  </button>
-                </nav>
-      
-                {/* Mobile Menu */}
-                {menuOpen && (
-                  <div className="lg:hidden mt-4 bg-white rounded-2xl p-4 shadow-lg">
-                    <ul className="cursor-pointer space-y-3">
-                       <li  onClick={()=>{navigate('/')}}className="py-2 border-b border-gray-100">
-                         Home
-                        </li>
-                     
-                        <li className="py-2 border-b border-gray-100">
-                        <select onChange={handleChangeSelection}className='w-30 py-2 border-b border-gray-100'>
-                           <option value="">Our Services</option>
-                  <option value="/webdesign">Website Design</option>
-                  <option value="/ecommerce">ECommerce Websites</option>
-                  <option value="/service-site">Service Website</option>
-                  <option value="/branding&logodesign">Branding & Logo Design</option>
-                  <option value="/digitalmarketing">Digital Marketing</option>
-                  <option value="/seo">Search Engine Optimisation</option>
-                  <option value="/googleads">Google Ads Management</option>
-                  <option value="/metaads">Meta Ads Management</option>
-             
-                  <option value="/conversionrate">Conversion Rate Optimization</option>
-                  <option value="/hosting">Managed Hosting</option>
-                  <option value="/gohigh">Go High Level CRM</option>
-                  <option value="/ai">AI Agents / Automation Development</option>
-                  <option value="/whitelabel">White Label Marketing</option>
-                  <option value="/lead">Lead Generation</option>
-      
-                        </select>
-                        </li>
+          <header className="relative z-50 w-full bg-[#f7f7f7] py-4" data-aos="slide-down">
+        <div className="mx-auto max-w-7xl px-4">
+          <nav className="flex items-center justify-between rounded-2xl bg-white px-4 sm:px-6 py-3 sm:py-4 shadow-md">
+            {/* Logo */}
+            <div onClick ={()=>{navigate('/')}}className="flex items-center gap-2">
+              <img
+                src={image6}
+                alt="Growth Flow Media"
+                className="h-12 sm:h-16 md:h-20 w-auto "
+              />
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button 
+              className="lg:hidden p-2"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              <Menu size={24} />
+            </button>
+
+            {/* Menu - Desktop */}
+            <ul className="hidden z-50 lg:flex  items-center gap-4 xl:gap-8 text-sm xl:text-[15px] font-medium text-gray-700">
+              <li className="group relative cursor-pointer z-50">
+                  <div onClick={()=>{navigate('/')}}className="flex items-center gap-1 hover:text-black whitespace-nowrap">
+                    Home
                     
-                      <li>
-                        <li  onClick={()=>{navigate('/contact')}}className="py-2 border-b border-gray-100">
-                        Contact
-                        </li>
-                        <button className="w-full flex justify-center gap-2 rounded-xl bg-[#e36a2e] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#cf5f28]" onClick={()=>{navigate('/contact')}}>
-                          Get Started Now <ArrowRightCircle size={18} className='text-black'/>
-                        </button>
-                      </li>
-                    </ul>
                   </div>
-                )}
+
+                </li>
+                <li>
+                 <div className="relative">
+                <button
+                  onClick={() => setIsServicesOpen(!isServicesOpen)}
+                  className={`flex items-center font-medium transition-colors hover:text-gray-700 ${
+                    serviceItems.some(item => location.pathname === item.path)
+                      ? 'text-gray-700'
+                      : 'text-gray-700'
+                  }`}
+                >
+                  Services
+                  <FaChevronDown className={`ml-2 transition-transform ${isServicesOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                <AnimatePresence>
+                  {isServicesOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl overflow-hidden"
+                      
+                    >
+                      {serviceItems.map((service) => (
+                        <button
+                          key={service.name}
+                          onClick={() => handleServiceSelect(service.path)}
+                          className="block w-full text-left px-4 py-3 hover:bg-gray-50 hover:text-primary-600 transition-colors text-gray-700 font-medium"
+                        >
+                          {service.name}
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-            </header>
+                </li>
+                
+                
+                 <li onClick={()=>{navigate('/contact')}}className="group relative cursor-pointer">
+                  <div className="flex items-center gap-1 hover:text-black whitespace-nowrap">
+                   Contact us 
+                    
+                  </div>
+
+        
+                </li>
+      
+            </ul>
+
+            {/* CTA Button */}
+            <button className="hidden lg:flex gap-2 rounded-xl bg-[#e36a2e] px-4 sm:px-6 py-2 sm:py-3 text-sm font-semibold text-black transition hover:bg-[#cf5f28] whitespace-nowrap" onClick={()=>{navigate('/contact')}}>
+              Get Started Now <span><ArrowRightCircle size={18} className='text-black'/></span>
+            </button>
+          </nav>
+
+          {/* Mobile Menu */}
+          {menuOpen && (
+            <div className="lg:hidden mt-4 bg-white rounded-2xl p-4 shadow-lg">
+              <ul className="cursor-pointer space-y-3">
+                 <li  onClick={()=>{navigate('/')}}className="py-2 border-b border-gray-100">
+                   Home
+                  </li>
+               
+                  <li className="py-2 border-b border-gray-100">
+                <div className="py-3 ">
+                  <button
+                    onClick={() => setIsServicesOpen(!isServicesOpen)}
+                    className="flex items-center justify-between w-full font-medium text-gray-700 hover:text-primary-600"
+                  >
+                    <span>Services</span>
+                    <FaChevronDown className={`transition-transform ${isServicesOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  
+                  <AnimatePresence>
+                    {isServicesOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="pl-4 pt-2 space-y-2">
+                          {serviceItems.map((service) => (
+                            <button
+                              key={service.name}
+                              onClick={() => handleServiceSelect(service.path)}
+                              className="block w-full text-left py-2 px-4 rounded-lg hover:bg-gray-50 hover:text-primary-600 text-gray-600 font-medium"
+                            >
+                              {service.name}
+                            </button>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+                  </li>
+              
+                <li>
+                  <li  onClick={()=>{navigate('/contact')}}className="py-2 border-b border-gray-100">
+                  Contact
+                  </li>
+                  <button className="w-full flex justify-center gap-2 rounded-xl bg-[#e36a2e] px-6 py-3 text-sm font-semibold text-black transition hover:bg-[#cf5f28]" onClick={()=>{navigate('/contact')}}>
+                    Get Started Now <ArrowRightCircle size={18} className='text-black'/>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
+      </header>
       {/* Contact Us Section - Professional Contact Form */}
 <section className="bg-gradient-to-br from-gray-50 to-white py-16 sm:py-20 lg:py-24 relative overflow-hidden">
   {/* Background Decorations */}

@@ -3,6 +3,7 @@
     "aos": "^2.3.4",
     "lottie-react": "^2.4.1",
     "react-confetti": "^6.4.0",
-    "react-use": "^17.6.0"
+    "react-use": "^17.6.0",
+    "swiper": "^12.2.0"
   }
 }

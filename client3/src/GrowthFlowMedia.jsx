@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Layout ,ShoppingCart,Globe,PenTool,TrendingUp,Search,MessageCircle,Target,Megaphone,FileText,BarChart3,Server,Users,Bot,Layers,UserPlus,Menu, Mail, ChevronDown, ArrowRightCircle, Recycle, Link } from 'lucide-react';
 import { Phone, Facebook, Linkedin, Instagram, Youtube, Twitter, ChevronRight } from 'lucide-react';
 import Confetti from 'react-confetti'
-import {FaFacebook,FaGoogle} from 'react-icons/fa';
+import {FaChevronDown, FaFacebook,FaGoogle} from 'react-icons/fa';
 import image1 from "../images/image.png";
 import image2 from "../images/image2.png";
 import image3 from "../images/image3.png";
 import image4 from "../images/image4.png";
+
 import image5 from "../images/image5.png";
 import vansh from "../images/vansh.png";
 
@@ -30,14 +31,16 @@ import "aos/dist/aos.css";
 import TestimonialsSection from './Testiminials';
 import { useNavigate } from 'react-router-dom';
 
-
+import { motion, AnimatePresence } from 'framer-motion';
 
 
 
 export default function GrowthFlowMedia() {
   const [menuOpen, setMenuOpen] = useState(false);
+   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [currentImageText, setCurrentImageText] = useState(0);
+  
   const {width,height}=useWindowSize();
 useEffect(()=>{
   AOS.init({duration:800});
@@ -122,12 +125,18 @@ useEffect(() => {
   ];
 
   
-
-  const services = [
+const [isServicesOpen, setIsServicesOpen] = useState(false);
+    // Handle service selection
+  const handleServiceSelect = (path) => {
+    navigate(path);
+    setIsServicesOpen(false);
+    setIsMenuOpen(false);
+  };
+  const serviceItems = [
     { name: 'Website Design', path: '/webdesign' },
     {name:'Lead Generation',path:'/lead'},
     {name:'Go High Level CRM',path:'/gohigh'},
-    {name:'Ai Agents/Automation Development',path:'/'},
+    {name:'Ai Agents/Automation Development',path:'/ai'},
 
     {name:'White Label Marketing',path:'/whitelabel'},
 
@@ -163,6 +172,7 @@ useEffect(() => {
     
     "Our Services",
   ];
+
 const ContactSection=useRef(null);
   const scrollToContact = () => {
     ContactSection.current.scrollIntoView({ behavior: "smooth" });
@@ -372,7 +382,7 @@ const ContactSection=useRef(null);
       </div>
 
       {/* Header */}
-      <header className="w-full bg-[#f7f7f7] py-4" data-aos="slide-down">
+      <header className="relative z-50 w-full bg-[#f7f7f7] py-4" data-aos="slide-down">
         <div className="mx-auto max-w-7xl px-4">
           <nav className="flex items-center justify-between rounded-2xl bg-white px-4 sm:px-6 py-3 sm:py-4 shadow-md">
             {/* Logo */}
@@ -393,8 +403,8 @@ const ContactSection=useRef(null);
             </button>
 
             {/* Menu - Desktop */}
-            <ul className="hidden lg:flex items-center gap-4 xl:gap-8 text-sm xl:text-[15px] font-medium text-gray-700">
-              <li className="group relative cursor-pointer">
+            <ul className="hidden z-50 lg:flex  items-center gap-4 xl:gap-8 text-sm xl:text-[15px] font-medium text-gray-700">
+              <li className="group relative cursor-pointer z-50">
                   <div onClick={()=>{navigate('/')}}className="flex items-center gap-1 hover:text-black whitespace-nowrap">
                     Home
                     
@@ -402,25 +412,41 @@ const ContactSection=useRef(null);
 
                 </li>
                 <li>
-                  <select onChange={handleChangeSelection}className='w-30'>
-                     <option value="">Our Services</option>
-            <option value="/webdesign">Website Design</option>
-            <option value="/ecommerce">ECommerce Websites</option>
-            <option value="/service-site">Service Website</option>
-            <option value="/branding&logodesign">Branding & Logo Design</option>
-            <option value="/digitalmarketing">Digital Marketing</option>
-            <option value="/seo">Search Engine Optimisation</option>
-            <option value="/googleads">Google Ads Management</option>
-            <option value="/metaads">Meta Ads Management</option>
-       
-            <option value="/conversionrate">Conversion Rate Optimization</option>
-            <option value="/hosting">Managed Hosting</option>
-            <option value="/gohigh">Go High Level CRM</option>
-            <option value="/ai">AI Agents / Automation Development</option>
-            <option value="/whitelabel">White Label Marketing</option>
-            <option value="/lead">Lead Generation</option>
-
-                  </select>
+                 <div className="relative">
+                <button
+                  onClick={() => setIsServicesOpen(!isServicesOpen)}
+                  className={`flex items-center font-medium transition-colors hover:text-gray-700 ${
+                    serviceItems.some(item => location.pathname === item.path)
+                      ? 'text-gray-700'
+                      : 'text-gray-700'
+                  }`}
+                >
+                  Services
+                  <FaChevronDown className={`ml-2 transition-transform ${isServicesOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                <AnimatePresence>
+                  {isServicesOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl overflow-hidden"
+                      
+                    >
+                      {serviceItems.map((service) => (
+                        <button
+                          key={service.name}
+                          onClick={() => handleServiceSelect(service.path)}
+                          className="block w-full text-left px-4 py-3 hover:bg-gray-50 hover:text-primary-600 transition-colors text-gray-700 font-medium"
+                        >
+                          {service.name}
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
                 </li>
                 
                 
@@ -450,25 +476,38 @@ const ContactSection=useRef(null);
                   </li>
                
                   <li className="py-2 border-b border-gray-100">
-                  <select onChange={handleChangeSelection}className='w-30 py-2 border-b border-gray-100'>
-                     <option value="">Our Services</option>
-            <option value="/webdesign">Website Design</option>
-            <option value="/ecommerce">ECommerce Websites</option>
-            <option value="/service-site">Service Website</option>
-            <option value="/branding&logodesign">Branding & Logo Design</option>
-            <option value="/digitalmarketing">Digital Marketing</option>
-            <option value="/seo">Search Engine Optimisation</option>
-            <option value="/googleads">Google Ads Management</option>
-            <option value="/metaads">Meta Ads Management</option>
-       
-            <option value="/conversionrate">Conversion Rate Optimization</option>
-            <option value="/hosting">Managed Hosting</option>
-            <option value="/gohigh">Go High Level CRM</option>
-            <option value="/ai">AI Agents / Automation Development</option>
-            <option value="/whitelabel">White Label Marketing</option>
-            <option value="/lead">Lead Generation</option>
-
-                  </select>
+                <div className="py-3 ">
+                  <button
+                    onClick={() => setIsServicesOpen(!isServicesOpen)}
+                    className="flex items-center justify-between w-full font-medium text-gray-700 hover:text-primary-600"
+                  >
+                    <span>Services</span>
+                    <FaChevronDown className={`transition-transform ${isServicesOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  
+                  <AnimatePresence>
+                    {isServicesOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="pl-4 pt-2 space-y-2">
+                          {serviceItems.map((service) => (
+                            <button
+                              key={service.name}
+                              onClick={() => handleServiceSelect(service.path)}
+                              className="block w-full text-left py-2 px-4 rounded-lg hover:bg-gray-50 hover:text-primary-600 text-gray-600 font-medium"
+                            >
+                              {service.name}
+                            </button>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
                   </li>
               
                 <li>
@@ -486,20 +525,20 @@ const ContactSection=useRef(null);
       </header>
 
    {/* Hero Section - Updated for Mobile Order */}
-<section className="relative bg-gradient-to-br from-gray-50 to-white px-4 sm:px-6 py-12 lg:py-24">
+<section className="relative z-10 bg-gradient-to-br from-gray-50 to-white px-4 sm:px-6 py-12 lg:py-24">
   <div data-aos="slide-right" className=" inline-block bg-orange-500 text-black px-4 py-2 rounded-md mb-4 sm:mb-6 text-xs sm:text-sm font-semibold whitespace-nowrap lg:mt-0 sm:mx-22">
         Design & Digital Marketing Agency,India
       </div>
   <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
    
-    {/* Left Content - Order changes for mobile */}
+   
     <div className="order-2 lg:order-1">
-      {/* Top Badge - First on Mobile */}
+     
       
       
-      {/* For Mobile: Show image first */}
+      
       <div className="lg:hidden mb-6">
-        <div className="relative h-58 w-full overflow-hidden ">
+        <div className="h-58 w-full overflow-hidden ">
           <img
             key={designImages[currentImageIndex].id}
             src={designImages[currentImageIndex].image}
@@ -509,9 +548,9 @@ const ContactSection=useRef(null);
         </div>
       </div>
 
-      {/* Rotating Text and Image Container for Desktop */}
+    
       <div className="hidden lg:flex flex-col sm:flex-row gap-4 sm:gap-6 mb-4" data-aos="slide-right">
-        <div className="relative h-48 w-48 overflow-hidden rounded-lg">
+        <div className="h-48 w-48 overflow-hidden rounded-lg">
           <img
             key={designImages[currentImageIndex].id}
             src={designImages[currentImageIndex].image}
@@ -528,7 +567,7 @@ const ContactSection=useRef(null);
         </h1>
       </div>
 
-      {/* Rotating Text for Mobile */}
+   
       <div className="lg:hidden mb-6 text-center">
         <h1
           key={designImages[currentImageIndex].text}
@@ -546,7 +585,7 @@ const ContactSection=useRef(null);
         Elevate your online presence with our seamless fusion of cutting-edge design and strategic <span className="font-semibold">digital marketing</span> solutions.
       </p>
 
-      {/* Services Dropdown - Third on Mobile */}
+      
       <div data-aos="slide-right" className="mb-6">
         <label className="block text-sm font-semibold text-gray-700 mb-2">
           Select Services
@@ -577,10 +616,10 @@ const ContactSection=useRef(null);
       </div>
     </div>
 
-    {/* Right Image - Second on Mobile */}
-    <div className="relative bg-transparent order-1 lg:order-2 lg:scale-130 mb-8 lg:mb-0">
+   
+    <div className="bg-transparent order-1 lg:order-2 lg:scale-130 mb-8 lg:mb-0">
       <div className="lg:hidden mb-4">
-        {/* Mobile rotating icons/text section */}
+       
         <div className="flex justify-center items-center gap-4">
          
         </div>
@@ -596,7 +635,7 @@ const ContactSection=useRef(null);
    
     </div>
   </div>
-</section>
+</section> 
 
       {/* Featured In Section with Scrolling Animation */}
       <section className="bg-black py-8 sm:py-12 overflow-hidden">
@@ -1410,14 +1449,38 @@ className="bg-blue-500 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medi
             {/* Our Services Column */}
             <div>
               <h3 className="text-white text-lg sm:text-xl font-bold mb-4 sm:mb-6">Our Services</h3>
-              <ul className="space-y-2 sm:space-y-3">
-                {services.map((service) => (
-                  <a className="flex items-center gap-2 text-gray-300 hover:text-orange-500 cursor-pointer text-xs sm:text-sm transition-colors">
-                    <ChevronRight onClick={()=>window.location.href=service.path} size={12} className="sm:w-8 sm:h-8" style={{color: '#FF9500'}} />
-                    <span onClick={()=>window.location.href=service.path}  className="truncate">{service.name}</span>
-                  </a>
-                ))}
-              </ul>
+                 <div className="py-3 px-4">
+                  <button
+                    onClick={() => setIsServicesOpen(!isServicesOpen)}
+                    className="flex items-center justify-between w-full font-medium text-gray-700 hover:text-primary-600"
+                  >
+                    <span>Services</span>
+                    <FaChevronDown className={`transition-transform ${isServicesOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  
+                  <AnimatePresence>
+                    {isServicesOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="pl-4 pt-2 space-y-2">
+                          {serviceItems.map((service) => (
+                            <button
+                              key={service.name}
+                              onClick={() => handleServiceSelect(service.path)}
+                              className="block w-full text-left py-2 px-4 rounded-lg hover:bg-gray-50 hover:text-primary-600 text-gray-600 font-medium"
+                            >
+                              {service.name}
+                            </button>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
             </div>
 
   
